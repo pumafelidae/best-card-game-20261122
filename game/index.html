@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ember &amp; Tide — Duel of Three Winds</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <section id="title-screen">
+    <h1><span class="ember">EMBER</span> &amp; <span class="tide">TIDE</span></h1>
+    <p class="subtitle">Duel of Three Winds — a card duel against the Warden</p>
+    <div class="title-elements">
+      <span class="element-chip element-ember"><svg viewBox="0 0 24 24"><path d="M12 2c.8 3.2-2.4 4.6-2.4 7.4 0 1.1.6 2 1.6 2 .9 0 1.6-.7 1.6-1.6 2.2 1.6 3.4 3.8 3.4 6.4a5.2 5.2 0 0 1-10.4 0C5.8 11.4 9 7.4 12 2z"/></svg>Ember</span>
+      <span class="element-chip element-tide"><svg viewBox="0 0 24 24"><path d="M2 15c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-2 5-1v6H2v-5zm0-6c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0 3.5-2 5-1v5H2V9z"/></svg>Tide</span>
+      <span class="element-chip element-thorn"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 7.5 4 13 12 22c8-9 5.5-14.5 0-20zm0 4.5c2.6 3 3.4 7.3.6 11.6-2.8-4.3-2-8.6-.6-11.6z"/></svg>Thorn</span>
+    </div>
+    <ol class="howto">
+      <li>Each turn, play one card to clash with the Warden's card. The higher total wins — value, plus 2 when your element beats theirs.</li>
+      <li>Ember beats Thorn, Thorn beats Tide, Tide beats Ember. Playing the same element twice in a row adds 2 more.</li>
+      <li>The Warden shows its next element before you play — read it and counter it. Cards cost energy; energy grows one a turn. Pass to bank energy, but the Warden strikes while you hold back.</li>
+      <li>Reduce the Warden to 0 life to win. Lose yours, and the winds keep the table.</li>
+    </ol>
+    <button id="play-button" class="big-button" type="button">PLAY</button>
+    <button id="sound-button" class="small-button" type="button">Sound: off</button>
+  </section>
+
+  <section id="table" class="hidden">
+    <div class="side-row">
+      <div class="side-name">SANG PENJAGA<small>The Warden</small></div>
+      <div id="ai-life"></div>
+      <div id="ai-energy"></div>
+      <div id="ai-intent"></div>
+    </div>
+    <div class="hand" id="ai-hand"></div>
+    <div class="hand-count" id="ai-count"></div>
+
+    <div id="clash-zone">
+      <div class="clash-slot" id="clash-player"></div>
+      <div class="clash-middle">
+        <div class="clash-vs">VS</div>
+        <div class="clash-result">Play a card to clash.</div>
+        <div id="cycle-legend"></div>
+        <div id="turn-label">Turn 1</div>
+      </div>
+      <div class="clash-slot" id="clash-ai"></div>
+    </div>
+
+    <div class="side-row">
+      <div class="side-name">YOU<small>Challenger</small></div>
+      <div id="player-life"></div>
+      <div id="player-energy"></div>
+      <div class="player-controls">
+        <button id="pass-button" type="button">Pass (P)</button>
+        <div id="battle-log"></div>
+      </div>
+    </div>
+    <div class="hand" id="player-hand"></div>
+  </section>
+
+  <section id="end-screen" class="hidden">
+    <h2 class="end-title">VICTORY</h2>
+    <p class="end-subtitle"></p>
+    <div class="end-stats"></div>
+    <button id="again-button" class="big-button" type="button">PLAY AGAIN</button>
+  </section>
+
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

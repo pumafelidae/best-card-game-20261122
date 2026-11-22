@@ -1,0 +1,383 @@
+/* Ember & Tide — Duel of Three Winds. The table: a deep felt green, warm
+   wood edges, cards that slide, flip and snap into place. Every element is
+   told apart by colour AND shape; every number is big enough to read at
+   thumbnail size. */
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #101d16;
+  color: #f3ead8;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+#app { min-height: 100vh; }
+
+.hidden { display: none !important; }
+
+/* ---------- Title screen ---------- */
+
+#title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(226, 72, 61, 0.25), transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(43, 125, 233, 0.2), transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(46, 158, 91, 0.2), transparent 50%),
+    linear-gradient(160deg, #14291e, #0c1a12);
+}
+
+#title-screen h1 {
+  font-size: 72px;
+  letter-spacing: 6px;
+  margin: 0 0 8px;
+  color: #f6e7c8;
+  text-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+#title-screen h1 .ember { color: #ff6a55; }
+#title-screen h1 .tide { color: #6db3ff; }
+
+#title-screen .subtitle {
+  font-size: 22px;
+  font-style: italic;
+  color: #cfe3d2;
+  margin: 0 0 28px;
+}
+
+.title-elements {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.title-elements .element-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 2px solid;
+}
+
+.title-elements .element-chip svg { width: 22px; height: 22px; fill: currentColor; }
+.element-ember { color: #ff8a76; border-color: #e2483d; }
+.element-tide { color: #8ec2ff; border-color: #2b7de9; }
+.element-thorn { color: #8fe0ae; border-color: #2e9e5b; }
+
+.howto {
+  max-width: 560px;
+  text-align: left;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #e8ddc2;
+  margin: 0 0 30px;
+}
+
+.howto li { margin-bottom: 6px; }
+
+.big-button {
+  font-family: inherit;
+  font-size: 24px;
+  letter-spacing: 2px;
+  padding: 14px 44px;
+  border-radius: 12px;
+  border: 2px solid #f6e7c8;
+  background: #e2483d;
+  color: #fff8ec;
+  cursor: pointer;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.big-button:hover { transform: translateY(-2px); box-shadow: 0 8px 0 rgba(0, 0, 0, 0.4); }
+.big-button:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4); }
+
+.small-button {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #c9b98a;
+  background: transparent;
+  color: #e8ddc2;
+  cursor: pointer;
+  margin-top: 18px;
+}
+
+/* ---------- Table ---------- */
+
+#table {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 28px 14px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.06), transparent 60%),
+    linear-gradient(180deg, #1d4a30, #143522 55%, #0f2a1a);
+}
+
+.side-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 0;
+}
+
+.side-name {
+  font-size: 20px;
+  letter-spacing: 2px;
+  min-width: 190px;
+}
+
+.side-name small { display: block; font-size: 13px; letter-spacing: 1px; color: #b9cdbd; }
+
+.lifebar {
+  position: relative;
+  width: 260px;
+  height: 26px;
+  border: 2px solid #f3ead8;
+  border-radius: 13px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.lifebar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #e2483d, #ff8a5c);
+  transition: width 0.5s ease;
+}
+
+.lifebar-fill.low { background: linear-gradient(90deg, #b3122e, #e2483d); }
+
+.lifebar-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.energy-pips { display: flex; gap: 6px; align-items: center; }
+
+.pip {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #f6e7c8;
+  background: transparent;
+  display: inline-block;
+}
+
+.pip.on { background: #ffd75e; border-color: #ffd75e; box-shadow: 0 0 8px rgba(255, 215, 94, 0.7); }
+
+#ai-intent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px dashed #c9b98a;
+  border-radius: 10px;
+  padding: 8px 14px;
+}
+
+.intent-icon { display: inline-flex; width: 26px; height: 26px; }
+.intent-icon svg { width: 26px; height: 26px; fill: currentColor; }
+
+/* ---------- Hands and cards ---------- */
+
+.hand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 140px;
+}
+
+.hand-count { font-size: 14px; color: #b9cdbd; margin-left: 6px; }
+
+.card {
+  width: 96px;
+  height: 134px;
+  border-radius: 12px;
+  background: linear-gradient(165deg, #fffdf5, #f0e6cc);
+  color: #221a12;
+  border: 3px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 6px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  flex-shrink: 0;
+}
+
+.card.element-ember { border-color: #e2483d; }
+.card.element-tide { border-color: #2b7de9; }
+.card.element-thorn { border-color: #2e9e5b; }
+
+.card.clickable { cursor: pointer; }
+.card.clickable:hover {
+  transform: translateY(-16px) scale(1.05);
+  box-shadow: 0 14px 22px rgba(0, 0, 0, 0.55);
+  z-index: 5;
+}
+
+.card.unplayable { opacity: 0.55; filter: grayscale(0.5); }
+.card.selected { transform: translateY(-16px); outline: 3px solid #ffd75e; }
+
+.card-icon { width: 36px; height: 36px; margin-top: 4px; }
+.card-icon svg { width: 36px; height: 36px; }
+.element-ember .card-icon { color: #e2483d; fill: #e2483d; }
+.element-tide .card-icon { color: #2b7de9; fill: #2b7de9; }
+.element-thorn .card-icon { color: #2e9e5b; fill: #2e9e5b; }
+
+.card-value {
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.card-name { font-size: 15px; letter-spacing: 1px; margin-top: 2px; }
+
+.card-cost {
+  position: absolute;
+  bottom: 8px;
+  display: flex;
+  gap: 4px;
+}
+
+.card-cost .pip { width: 12px; height: 12px; border-color: #8a7a52; }
+.card-cost .pip.on { background: #d4a017; border-color: #d4a017; box-shadow: none; }
+
+.card.back {
+  background: repeating-linear-gradient(45deg, #5b1f1a, #5b1f1a 10px, #7a2a22 10px, #7a2a22 20px);
+  border-color: #f6e7c8;
+}
+
+.card-back-mark {
+  margin: auto;
+  font-size: 34px;
+  color: #f6e7c8;
+}
+
+/* ---------- Clash zone ---------- */
+
+#clash-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(246, 231, 200, 0.25);
+  border-bottom: 1px solid rgba(246, 231, 200, 0.25);
+  margin: 6px 0;
+}
+
+.clash-slot { width: 96px; height: 134px; display: flex; align-items: center; justify-content: center; }
+
+.clash-empty {
+  width: 96px;
+  height: 134px;
+  border: 2px dashed rgba(246, 231, 200, 0.5);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(246, 231, 200, 0.7);
+  padding: 8px;
+}
+
+.clash-middle { text-align: center; min-width: 300px; }
+
+.clash-vs { font-size: 30px; font-weight: bold; color: #ffd75e; letter-spacing: 3px; }
+
+.clash-result { font-size: 17px; line-height: 1.45; margin-top: 8px; min-height: 48px; }
+
+#cycle-legend { font-size: 14px; color: #b9cdbd; margin-top: 8px; }
+#turn-label { font-size: 14px; color: #b9cdbd; letter-spacing: 2px; }
+
+/* ---------- Player area ---------- */
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+#pass-button {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: 2px solid #f6e7c8;
+  background: #2b4a68;
+  color: #fff;
+  cursor: pointer;
+}
+
+#pass-button:disabled { opacity: 0.45; cursor: default; }
+
+#battle-log {
+  margin-left: auto;
+  width: 340px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #d8cdae;
+}
+
+.log-line { margin-bottom: 3px; }
+
+/* ---------- End screen ---------- */
+
+#end-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: rgba(8, 16, 11, 0.94);
+  z-index: 20;
+}
+
+#end-screen.won { background: radial-gradient(ellipse at 50% 40%, rgba(255, 215, 94, 0.3), rgba(8, 16, 11, 0.96) 65%); }
+#end-screen.lost { background: radial-gradient(ellipse at 50% 40%, rgba(226, 72, 61, 0.28), rgba(8, 16, 11, 0.96) 65%); }
+
+.end-title {
+  font-size: 84px;
+  letter-spacing: 10px;
+  margin: 0;
+  animation: flourish 0.9s ease;
+}
+
+#end-screen.won .end-title { color: #ffd75e; text-shadow: 0 0 34px rgba(255, 215, 94, 0.65); }
+#end-screen.lost .end-title { color: #ff8a76; text-shadow: 0 0 34px rgba(226, 72, 61, 0.55); }
+
+@keyframes flourish {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.end-subtitle { font-size: 20px; font-style: italic; color: #e8ddc2; margin: 10px 0 24px; }
+
+.end-stats { display: flex; gap: 26px; font-size: 17px; margin-bottom: 30px; }
